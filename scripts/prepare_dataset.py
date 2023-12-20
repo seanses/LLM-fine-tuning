@@ -1,3 +1,6 @@
+"""
+Adapted from https://github.com/pacman100/DHS-LLM-Workshop/tree/main/personal_copilot/dataset_generation
+"""
 import os
 import pandas as pd
 from nbformat import reads, NO_CONVERT
@@ -51,7 +54,10 @@ def get_repo(username, repository):
 
     auth_name = os.getenv('GH_USER')
     auth_token = os.getenv('GH_TOKEN')
-    repo_url = f"https://{auth_name}:{auth_token}@github.com/{username}/{repository}.git"
+    if auth_name is None:
+        repo_url = f"https://github.com/{username}/{repository}.git"
+    else:
+        repo_url = f"https://{auth_name}:{auth_token}@github.com/{username}/{repository}.git"
 
     subprocess.run(["git", "clone", repo_url, repository])
 
@@ -71,7 +77,6 @@ def process_file(file_path: str) -> str:
         with open(file_path, "r", encoding="utf-8") as file:
             content = file.read()
             if file_path.endswith("ipynb"):
-                # Code courtesy: Chansung Park and Sayak Paul.
                 code_cell_str = ""
                 notebook = reads(content, NO_CONVERT)
 
