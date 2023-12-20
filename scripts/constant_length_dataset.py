@@ -88,7 +88,7 @@ class ConstantLengthDataset(IterableDataset):
 
 
 def constant_length_token_seq_from(tokenizer, train_data, valid_data, **kwargs):
-    chars_per_token = chars_token_ratio(train_data, tokenizer, kwargs.get('data_column', 'content'))
+    chars_per_token = chars_token_ratio(train_data, tokenizer, kwargs.get('data_column', 'content'), min(int(max(train_data.shape[0]*0.1, 1)), 400))
     print(f"The character to token ratio of the dataset is: {chars_per_token:.2f}")
     tokenized_train_dataset = ConstantLengthDataset(
         tokenizer,
