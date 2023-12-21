@@ -93,7 +93,7 @@ def constant_length_token_seq_from(tokenizer, train_data, valid_data, **kwargs):
     tokenized_train_dataset = ConstantLengthDataset(
         tokenizer,
         train_data,
-        infinite=True,
+        infinite=False,
         seq_length=kwargs.get('seq_length', 1024),
         chars_per_token=chars_per_token,
         content_field=kwargs.get('data_column', 'content'),
